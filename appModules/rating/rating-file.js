@@ -1,11 +1,7 @@
 const fs = require("fs").promises;
 
 async function makeRatingFile(path, array) {
-  fs.readFile(path, "utf8", (err, ratingFile) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
+  const ratingFile = await fs.readFile(path, "utf8");
     const ratingArray = JSON.parse(ratingFile);
     array.forEach((item) => {
       if (!ratingArray.find((el) => el.id === item.id)) {
@@ -20,7 +16,6 @@ async function makeRatingFile(path, array) {
         ratingArray.push(obj);
       }
     });
-  });
 
   await fs.writeFile(path, JSON.stringify(ratingArray));
 }
